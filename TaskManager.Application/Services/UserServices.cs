@@ -30,9 +30,11 @@ public class UserServices(IBaseRepository<User> userRepository) : IUserServices
             throw new Exception("404");
     }
 
-    public async Task DeleteAsync(User user)
+    public async Task DeleteAsync(int id)
     {
-        var result = await userRepository.DeleteAsync(user);
+        var result = await userRepository.DeleteAsync(
+            await userRepository.GetAsync(u => u.Id == id) ??
+                throw new Exception("404"));
         if(!result)
             throw new Exception("404");
     }

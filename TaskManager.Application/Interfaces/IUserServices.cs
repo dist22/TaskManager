@@ -15,6 +15,6 @@ public interface IUserServices
     
     public Task UpdateAsync(User user);
     
-    public Task DeleteAsync(User user);
+    public Task DeleteAsync(int id);
 
 }
