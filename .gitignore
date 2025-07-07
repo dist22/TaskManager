@@ -1,1 +1,3 @@
 /TaskManager.WebAPI/Properties/
+/TaskManager.WebAPI/appsettings.Development.json
+/TaskManager.WebAPI/appsettings.json
