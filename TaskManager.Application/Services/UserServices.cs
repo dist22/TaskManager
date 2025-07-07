@@ -1,0 +1,39 @@
+using System.Linq.Expressions;
+using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Interfaces;
+using TaskManager.Domain.Models;
+using Task = System.Threading.Tasks.Task;
+
+namespace TaskManager.Application.Services;
+
+public class UserServices(IBaseRepository<User> userRepository) : IUserServices
+{
+  
+    public async Task<User> GetAsync(int id) 
+        => await userRepository.GetAsync(u => u.Id == id) ?? 
+           throw new Exception("User not found");
+    
+    public async Task<IEnumerable<User>> GetAllAsync() 
+        => await userRepository.GetAllAsync();
+
+    public async Task CreateAsync(User user)
+    {
+        var result = await userRepository.AddAsync(user);
+        if(!result)
+            throw new Exception("404");
+    }
+
+    public async Task UpdateAsync(User user)
+    {
+        var result = await userRepository.UpdateAsync(user);
+        if(!result)
+            throw new Exception("404");
+    }
+
+    public async Task DeleteAsync(User user)
+    {
+        var result = await userRepository.DeleteAsync(user);
+        if(!result)
+            throw new Exception("404");
+    }
+}
