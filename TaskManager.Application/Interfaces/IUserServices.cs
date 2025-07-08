@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using TaskManager.Application.DTO_s;
 using TaskManager.Domain.Models;
 using Task = System.Threading.Tasks.Task;
 
@@ -11,7 +12,7 @@ public interface IUserServices
     
     public Task<IEnumerable<User>> GetAllAsync();
     
-    public Task CreateAsync(User user);
+    public Task CreateAsync(UserCreateDto user);
     
     public Task UpdateAsync(User user);
     

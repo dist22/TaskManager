@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using AutoMapper;
+using TaskManager.Application.DTO_s;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
@@ -6,7 +8,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Application.Services;
 
-public class UserServices(IBaseRepository<User> userRepository) : IUserServices
+public class UserServices(IBaseRepository<User> userRepository, IMapper mapper) : IUserServices
 {
   
     public async Task<User> GetAsync(int id) 
@@ -16,9 +18,9 @@ public class UserServices(IBaseRepository<User> userRepository) : IUserServices
     public async Task<IEnumerable<User>> GetAllAsync() 
         => await userRepository.GetAllAsync();
 
-    public async Task CreateAsync(User user)
+    public async Task CreateAsync(UserCreateDto user)
     {
-        var result = await userRepository.AddAsync(user);
+        var result = await userRepository.AddAsync(mapper.Map<User>(user));
         if(!result)
             throw new Exception("404");
     }

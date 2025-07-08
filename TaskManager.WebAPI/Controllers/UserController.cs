@@ -1,6 +1,7 @@
 using TaskManager.Domain.Models;
 using TaskManager.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.DTO_s;
 
 namespace TaskManager.WebAPI.Controllers;
 
@@ -17,7 +18,7 @@ public class UserController(IUserServices userServices) : ControllerBase
         => await userServices.GetAllAsync();
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] User user)
+    public async Task<IActionResult> Post([FromBody] UserCreateDto user)
     {
         await userServices.CreateAsync(user);
         return Ok();

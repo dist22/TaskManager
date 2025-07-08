@@ -11,7 +11,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTO`s\" />
+      <PackageReference Include="AutoMapper" Version="15.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ApplicationProfile\" />
     </ItemGroup>
 
 </Project>
