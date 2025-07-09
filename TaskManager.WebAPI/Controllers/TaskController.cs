@@ -14,7 +14,7 @@ public class TaskController(ITaskService taskService) : ControllerBase
     public async Task<IEnumerable<TaskTime>> GetAll() 
         => await taskService.GetAllAsync();
 
-    [HttpPost("task/{id}")]
+    [HttpGet("task/{id}")]
     public async Task<TaskTime> GetAsync(int id)
         => await taskService.GetByIdAsync(id);
 
