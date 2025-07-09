@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using TaskManager.Application.DTO_s;
+using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;

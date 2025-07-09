@@ -1,7 +1,7 @@
 using TaskManager.Domain.Models;
 using TaskManager.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.DTO_s;
+using TaskManager.Application.DTO;
 
 namespace TaskManager.WebAPI.Controllers;
 
@@ -18,14 +18,14 @@ public class UserController(IUserServices userServices) : ControllerBase
         => await userServices.GetAllAsync();
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UserCreateDto user)
+    public async Task<IActionResult> Post([FromForm] UserCreateDto user)
     {
         await userServices.CreateAsync(user);
         return Ok();
     }
 
     [HttpPut("user-edit/{id}")]
-    public async Task<IActionResult> Put([FromBody] User user, int id)
+    public async Task<IActionResult> Put([FromForm] User user, int id)
     {
         await userServices.UpdateAsync(user);
         return Ok();

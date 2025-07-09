@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using TaskManager.Application.DTO_s;
+using TaskManager.Application.DTO;
 using TaskManager.Domain.Models;
 using Task = System.Threading.Tasks.Task;
 
