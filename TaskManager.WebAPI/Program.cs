@@ -20,6 +20,7 @@ builder.Services.AddDbContext<DataContextEf>(option =>
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<ITaskService, TaskServices>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<ApplicationProfile>();
