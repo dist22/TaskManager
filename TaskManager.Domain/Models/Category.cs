@@ -13,6 +13,6 @@ public class Category
     public DateTime CreateAt { get; set; }
     public bool IsActive { get; set; }
 
-    public ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public ICollection<TaskTime> Tasks { get; set; } = new List<TaskTime>();
 
 }

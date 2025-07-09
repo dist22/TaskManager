@@ -10,6 +10,6 @@ public class UserTask
     public DateTime? CompetedAt { get; set; }
     
     public User? User { get; set; }
-    public Task? Task { get; set; }
+    public TaskTime? Task { get; set; }
 
 }

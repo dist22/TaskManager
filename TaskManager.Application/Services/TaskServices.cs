@@ -22,7 +22,7 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IMapper mapp
             throw new Exception("Task not found");
     }
 
-    public async Task UpdateAsync(TaskTime taskTime)
+    public async Task UpdateAsync(TaskTimeEditDto taskTime)
     {
         var result = await taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime));
         if (!result)

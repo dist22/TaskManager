@@ -1,18 +1,17 @@
 using TaskManager.Domain.Models;
-using Task = TaskManager.Domain.Models.Task;
+using TaskManager.Application.DTO;
 
 namespace TaskManager.Application.Interfaces;
 
 public interface ITaskService
 {
+    public Task<IEnumerable<TaskTime>> GetAllAsync();
     
-    public Task<IEnumerable<Task>> GetAllAsync();
+    public Task<TaskTime> GetByIdAsync(int id);
     
-    public Task<Task> GetByIdAsync(int id);
+    public Task CreateAsync(TaskTimeCreateDto taskTime);
     
-    public Task CreateAsync(Task task);
-    
-    public Task UpdateAsync(Task task);
+    public Task UpdateAsync(TaskTimeEditDto taskTime);
     
     public Task DeleteAsync(int id);
     

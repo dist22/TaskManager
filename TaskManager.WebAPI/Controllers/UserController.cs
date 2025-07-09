@@ -17,7 +17,7 @@ public class UserController(IUserServices userServices) : ControllerBase
     public async Task<IEnumerable<User>> GetAll() 
         => await userServices.GetAllAsync();
 
-    [HttpPost]
+    [HttpPost("user/post")]
     public async Task<IActionResult> Post([FromForm] UserCreateDto user)
     {
         await userServices.CreateAsync(user);

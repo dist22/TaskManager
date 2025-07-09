@@ -4,7 +4,7 @@ using TaskManager.Domain.Enums;
 
 namespace TaskManager.Domain.Models;
 
-public class Task
+public class TaskTime
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

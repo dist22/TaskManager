@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskManager.Domain.Enums;
 using TaskManager.Domain.Models;
-using Task = TaskManager.Domain.Models.Task;
 
 namespace TaskManager.Infrastructure.Data.Configuration;
 
-public class TaskTimeConfigure : IEntityTypeConfiguration<Task>
+public class TaskTimeConfigure : IEntityTypeConfiguration<TaskTime>
 {
-    public void Configure(EntityTypeBuilder<Task> builder)
+    public void Configure(EntityTypeBuilder<TaskTime> builder)
     {
         builder.ToTable("Tasks");
         

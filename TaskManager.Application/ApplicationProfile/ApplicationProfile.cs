@@ -13,6 +13,13 @@ public class ApplicationProfile : Profile
 
         CreateMap<UserEditDto, User>();
         CreateMap<User, UserEditDto>();
+
+        CreateMap<TaskTimeCreateDto, TaskTime>();
+        CreateMap<TaskTime, TaskTimeCreateDto>();
+        
+        CreateMap<TaskTimeEditDto, TaskTime>();
+        CreateMap<TaskTime, TaskTimeEditDto>();
+        
     }
     
 }
