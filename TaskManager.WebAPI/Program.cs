@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(cfg =>
+{
+    cfg.UseInlineDefinitionsForEnums();
+});
 
 builder.Services.AddDbContext<DataContextEf>(option =>
 {

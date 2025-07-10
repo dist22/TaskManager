@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Enums;
 using TaskManager.Domain.Models;
 
 namespace TaskManager.WebAPI.Controllers;
@@ -30,6 +31,13 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
     public async Task<IActionResult> Put(int id, [FromForm] CategoryCreateUpdateDto categoryCreateUpdateDto)
     {
         await categoryService.Update(categoryCreateUpdateDto, id);
+        return Ok();
+    }
+
+    [HttpPatch("category/{id}/change-status")]
+    public async Task<IActionResult> ChangeStatus(int id, ActiveStatus activeStatus)
+    {
+        await categoryService.ChangeStatus(id, activeStatus);
         return Ok();
     }
 

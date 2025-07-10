@@ -7,25 +7,18 @@ using TaskManager.Domain.Models;
 namespace TaskManager.Application.Services;
 
 public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseRepository<Category> categoryRepository,
-    IMapper mapper) : ITaskService
+    IMapper mapper) : BaseService, ITaskService
 {
     public async Task<IEnumerable<TaskTime>> GetAllAsync() 
         => await taskRepository.GetAllAsync();
 
     public async Task<TaskTime> GetByIdAsync(int id) 
-        => await taskRepository.GetAsync(t => t.Id == id) ?? 
-           throw new Exception("Task not found");
+        => await GetIfNotNull(taskRepository.GetAsync(t => t.Id == id));
 
     public async Task CreateAsync(TaskTimeCreateDto createDto)
     {
-
-        var categoryExist = await categoryRepository
-            .IfExistAsync(c => c.Id == createDto.CategoryId && c.IsActive);
-        
-        if(!categoryExist)
-            throw new Exception("Category not found");
-        
-        var category = await categoryRepository.GetAsync(c => c.Id == createDto.CategoryId);
+        var category = await GetIfNotNull(categoryRepository
+            .GetAsync(c => c.Id == createDto.CategoryId && c.IsActive));
 
         var task = new TaskTime
         {
@@ -35,24 +28,19 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
             CategoryId = createDto.CategoryId,
         };
         
-        var result = await taskRepository.AddAsync(task);
-        if(!result)
-            throw new Exception("404");
-
+        await EnsureSuccess( 
+            taskRepository.AddAsync(task));
     }
 
     public async Task UpdateAsync(TaskTimeEditDto taskTime)
     {
-        var result = await taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime));
-        if (!result)
-            throw new Exception("Task not found");
+        await EnsureSuccess(
+            taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime)));
     }
 
     public async Task DeleteAsync(int id)
     {
-        var result = await taskRepository.DeleteAsync(
-            await taskRepository.GetAsync(t => t.Id == id));
-        if(!result)
-            throw new Exception("Task not found");
+        await EnsureSuccess(taskRepository.DeleteAsync(
+            await taskRepository.GetAsync(t => t.Id == id)));
     }
 }
