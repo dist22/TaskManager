@@ -16,7 +16,7 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Category>
             .HasDefaultValueSql("getdate()");
         
         builder.Property(c => c.IsActive)
-            .HasDefaultValue(true);
+            .HasDefaultValue(false);
 
         builder.Property(c => c.Name)
             .HasMaxLength(100)

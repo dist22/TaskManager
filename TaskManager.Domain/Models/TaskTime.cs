@@ -14,7 +14,7 @@ public class TaskTime
     public string CategoryName { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; } 
     public DateTime DueDate { get; set; }
-    public bool IsComplete { get; set; } = false;
+    public bool IsComplete { get; set; }
     public TaskPriority Priority { get; set; }
 
     public int CategoryId { get; set; }

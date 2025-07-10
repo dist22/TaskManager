@@ -6,7 +6,8 @@ using TaskManager.Domain.Models;
 
 namespace TaskManager.Application.Services;
 
-public class TaskServices(IBaseRepository<TaskTime> taskRepository, IMapper mapper) : ITaskService
+public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseRepository<Category> categoryRepository,
+    IMapper mapper) : ITaskService
 {
     public async Task<IEnumerable<TaskTime>> GetAllAsync() 
         => await taskRepository.GetAllAsync();
@@ -17,9 +18,27 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IMapper mapp
 
     public async Task CreateAsync(TaskTimeCreateDto createDto)
     {
-        var result = await taskRepository.AddAsync(mapper.Map<TaskTime>(createDto));
-        if (! result)
-            throw new Exception("Task not found");
+
+        var categoryExist = await categoryRepository
+            .IfExistAsync(c => c.Id == createDto.CategoryId && c.IsActive);
+        
+        if(!categoryExist)
+            throw new Exception("Category not found");
+        
+        var category = await categoryRepository.GetAsync(c => c.Id == createDto.CategoryId);
+
+        var task = new TaskTime
+        {
+            Title = createDto.Title,
+            Description = createDto.Description,
+            CategoryName = category.Name,
+            CategoryId = createDto.CategoryId,
+        };
+        
+        var result = await taskRepository.AddAsync(task);
+        if(!result)
+            throw new Exception("404");
+
     }
 
     public async Task UpdateAsync(TaskTimeEditDto taskTime)

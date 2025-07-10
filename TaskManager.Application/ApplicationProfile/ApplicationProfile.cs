@@ -19,7 +19,10 @@ public class ApplicationProfile : Profile
         
         CreateMap<TaskTimeEditDto, TaskTime>();
         CreateMap<TaskTime, TaskTimeEditDto>();
-        
+
+        CreateMap<CategoryCreateUpdateDto, Category>();
+        CreateMap<Category, CategoryCreateUpdateDto>();
+
     }
     
 }

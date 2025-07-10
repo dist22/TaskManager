@@ -11,7 +11,7 @@ public class Category
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public ICollection<TaskTime> Tasks { get; set; } = new List<TaskTime>();
 
