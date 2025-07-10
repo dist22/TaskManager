@@ -36,6 +36,15 @@ public class CategoryService(
             throw new Exception("Category could not be updated");
     }
 
+    public async Task ChangeStatus(int Id, ActiveStatus activeStatus)
+    {
+        var category = await categoryRepository.GetAsync(c => c.Id == Id);
+        
+        category.IsActive = activeStatus == ActiveStatus.Active;
+        
+        await EnsureSuccess(categoryRepository.UpdateAsync(category));
+    }
+
     public async Task Delete(int id)
     {
         var result = await categoryRepository.DeleteAsync(
