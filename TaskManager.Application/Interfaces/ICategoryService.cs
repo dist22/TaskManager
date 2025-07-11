@@ -4,12 +4,8 @@ using TaskManager.Application.DTO;
 
 namespace TaskManager.Application.Interfaces;
 
-public interface ICategoryService
+public interface ICategoryService : IBaseService<Category>
 {
-    public Task<Category> GetAsync(int id);
-
-    public Task<IEnumerable<Category>> GetAllAsync();
-
     public Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto);
 
     public Task ChangeStatus(int Id, ActiveStatus activeStatus);

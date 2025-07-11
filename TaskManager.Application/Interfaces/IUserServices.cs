@@ -5,13 +5,9 @@ using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Application.Interfaces;
 
-public interface IUserServices
+public interface IUserServices : IBaseService<User>
 {
-
-    public Task<User> GetAsync(int id);
-    
-    public Task<IEnumerable<User>> GetAllAsync();
-    
+   
     public Task CreateAsync(UserCreateDto user);
     
     public Task UpdateAsync(User user);

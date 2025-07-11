@@ -3,12 +3,9 @@ using TaskManager.Application.DTO;
 
 namespace TaskManager.Application.Interfaces;
 
-public interface ITaskService
+public interface ITaskService : IBaseService<TaskTime>
 {
-    public Task<IEnumerable<TaskTime>> GetAllAsync();
-    
-    public Task<TaskTime> GetByIdAsync(int id);
-    
+   
     public Task CreateAsync(TaskTimeCreateDto taskTime);
     
     public Task UpdateAsync(TaskTimeEditDto taskTime);
