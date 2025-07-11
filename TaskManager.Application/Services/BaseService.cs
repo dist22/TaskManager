@@ -1,8 +1,14 @@
+using System.Linq.Expressions;
+using AutoMapper;
+using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Interfaces;
+
 namespace TaskManager.Application.Services;
 
-public class BaseService
+public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapper) 
+    : IBaseService<T> where T : class
 {
-    protected async Task<T> GetIfNotNull<T>(Task<T> task)
+    protected async Task<U> GetIfNotNull<U>(Task<U> task)
     {
         var result = await task;
         if(result != null) return result;
@@ -15,4 +21,10 @@ public class BaseService
         if(result) return;
         throw new NullReferenceException();
     }
+
+    public virtual async Task<U> GetByPredicateAsync<U>(Expression<Func<T, bool>> predicate) 
+        => mapper.Map<U>(await GetIfNotNull(repository.GetAsync(predicate)));
+
+    public virtual async Task<IEnumerable<U>> GetAllAsync<U>() 
+        => mapper.Map<IEnumerable<U>>( await repository.GetAllAsync());
 }
