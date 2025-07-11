@@ -15,5 +15,6 @@ public class User
     public DateTime CreateAt { get; set; }
     public bool IsActive { get; set; }
     public ICollection<UserTask> UserTasks { get; set; } = new List<UserTask>();
+    public UserAuth? UserAuth { get; set; }
     
 }
