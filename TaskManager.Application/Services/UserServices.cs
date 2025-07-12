@@ -8,29 +8,35 @@ using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Application.Services;
 
-public class UserServices(IBaseRepository<User> userRepository, IMapper mapper) : BaseService, IUserServices
+public class UserServices(IBaseRepository<User> userRepository, IBaseRepository<UserAuth> userAuthRepository, 
+    IMapper mapper, IPasswordHasher passwordHasher) : BaseService<User>(userRepository, mapper), IUserServices
 {
-    public async Task<User> GetAsync(int id)
-        => await GetIfNotNull(userRepository.GetAsync(u => u.Id == id));
 
-    public async Task<IEnumerable<User>> GetAllAsync()
-        => await userRepository.GetAllAsync();
-
-    public async Task CreateAsync(UserCreateDto user)
+    public async Task CreateAsync(UserCreateDto userCreate)
     {
-        await EnsureSuccess(userRepository.AddAsync(mapper.Map<User>(user)));
+        if (userCreate.Password != userCreate.PasswordConfirm)
+            throw new Exception("Passwords do not match!");
+
+        var user = mapper.Map<User>(userCreate);
+        await EnsureSuccess( userRepository.AddAsync(user));
+
+        var userAuth = new UserAuth
+        {
+            UserId = user.Id,
+            Email = userCreate.Email,
+            Password = passwordHasher.GeneratePasswordHash(userCreate.Password)
+        };
+        await EnsureSuccess(userAuthRepository.AddAsync(userAuth));
+        
     }
 
-    public async Task UpdateAsync(User user)
+    public async Task UpdateAsync(UserEditDto userEditDto, int id)
     {
+
+        var user = await GetIfNotNull(userRepository.GetAsync(u => u.Id == id));
+        user = mapper.Map(userEditDto, user);
         await EnsureSuccess(userRepository.UpdateAsync(user));
-    }
 
-    public async Task DeleteAsync(int id)
-    {
-        await EnsureSuccess(
-            userRepository.DeleteAsync(
-                await GetIfNotNull(
-                    userRepository.GetAsync(u => u.Id == id))));
     }
+    
 }

@@ -10,6 +10,4 @@ public interface ITaskService : IBaseService<TaskTime>
     
     public Task UpdateAsync(TaskTimeEditDto taskTime);
     
-    public Task DeleteAsync(int id);
-    
 }

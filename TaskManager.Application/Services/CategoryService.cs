@@ -7,25 +7,18 @@ using TaskManager.Domain.Models;
 
 namespace TaskManager.Application.Services;
 
-public class CategoryService(
-    IBaseRepository<Category> categoryRepository,
-    IMapper mapper) : BaseService, ICategoryService
+public class CategoryService(IBaseRepository<Category> categoryRepository, IMapper mapper) 
+    : BaseService<Category>(categoryRepository, mapper), ICategoryService
 {
-    public async Task<Category> GetAsync(int id)
-        => await GetIfNotNull(categoryRepository.GetAsync(c => c.Id == id));
-
-    public async Task<IEnumerable<Category>> GetAllAsync()
-        => await categoryRepository.GetAllAsync();
-
     public async Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto)
     {
         await EnsureSuccess(categoryRepository.AddAsync(
             mapper.Map<Category>(categoryCreateUpdateDto)));
     }
 
-    public async Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int Id)
+    public async Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int id)
     {
-        var category = await GetIfNotNull(categoryRepository.GetAsync(c => c.Id == Id));
+        var category = await GetIfNotNull(categoryRepository.GetAsync(c => c.Id == id));
         
         category.Name = categoryCreateUpdateDto.Name;
         category.Description = categoryCreateUpdateDto.Description;
@@ -33,18 +26,12 @@ public class CategoryService(
         await EnsureSuccess( categoryRepository.UpdateAsync(category));
     }
 
-    public async Task ChangeStatus(int Id, ActiveStatus activeStatus)
+    public async Task ChangeStatus(int id, ActiveStatus activeStatus)
     {
-        var category = await categoryRepository.GetAsync(c => c.Id == Id);
+        var category = await categoryRepository.GetAsync(c => c.Id == id);
         
         category.IsActive = activeStatus == ActiveStatus.Active;
         
         await EnsureSuccess(categoryRepository.UpdateAsync(category));
-    }
-
-    public async Task Delete(int id)
-    {
-        await EnsureSuccess(categoryRepository.DeleteAsync(
-            await categoryRepository.GetAsync(c => c.Id == id)));
     }
 }

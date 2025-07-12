@@ -13,12 +13,12 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
 {
 
     [HttpGet("all")]
-    public async Task<IEnumerable<Category>> GetAll()
-        => await categoryService.GetAllAsync();
+    public async Task<IEnumerable<CategoryDto>> GetAll()
+        => await categoryService.GetAllAsync<CategoryDto>();
     
     [HttpGet("category/{id}")]
-    public async Task<Category> Get(int id) 
-        => await categoryService.GetAsync(id);
+    public async Task<CategoryDto> Get(int id) 
+        => await categoryService.GetByPredicateAsync<CategoryDto>(c => c.Id == id);
 
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] CategoryCreateUpdateDto categoryCreateUpdateDto)
@@ -45,7 +45,7 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
     [HttpDelete("category/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await categoryService.Delete(id);
+        await categoryService.DeleteAsync(c => c.Id ==id);
         return Ok();
     }
 

@@ -11,12 +11,12 @@ namespace TaskManager.WebAPI.Controllers;
 public class TaskController(ITaskService taskService) : ControllerBase
 {
     [HttpGet("all")]
-    public async Task<IEnumerable<TaskTime>> GetAll() 
-        => await taskService.GetAllAsync();
+    public async Task<IEnumerable<TaskTimeDto>> GetAll() 
+        => await taskService.GetAllAsync<TaskTimeDto>();
 
     [HttpGet("task/{id}")]
-    public async Task<TaskTime> GetAsync(int id)
-        => await taskService.GetByIdAsync(id);
+    public async Task<TaskTimeDto> GetAsync(int id)
+        => await taskService.GetByPredicateAsync<TaskTimeDto>(t => t.Id == id);
 
     [HttpPost("task/post")]
     public async Task<IActionResult> PostTaskAsync([FromForm] TaskTimeCreateDto taskTime)
@@ -35,7 +35,7 @@ public class TaskController(ITaskService taskService) : ControllerBase
     [HttpDelete("task/{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
-        await taskService.DeleteAsync(id);
+        await taskService.DeleteAsync(t => t.Id == id);
         return Ok();
     }
 }

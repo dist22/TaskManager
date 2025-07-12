@@ -8,9 +8,8 @@ public interface ICategoryService : IBaseService<Category>
 {
     public Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto);
 
-    public Task ChangeStatus(int Id, ActiveStatus activeStatus);
+    public Task ChangeStatus(int id, ActiveStatus activeStatus);
 
-    public Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int Id);
-
-    public Task Delete(int id);
+    public Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int id);
+    
 }

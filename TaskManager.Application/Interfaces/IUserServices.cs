@@ -8,10 +8,8 @@ namespace TaskManager.Application.Interfaces;
 public interface IUserServices : IBaseService<User>
 {
    
-    public Task CreateAsync(UserCreateDto user);
+    public Task CreateAsync(UserCreateDto userCreateDto);
     
-    public Task UpdateAsync(User user);
+    public Task UpdateAsync(UserEditDto userEditDto, int id);
     
-    public Task DeleteAsync(int id);
-
 }

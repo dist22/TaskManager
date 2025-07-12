@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskManager.Infrastructure.Data.Context;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Repositories;
+using TaskManager.Infrastructure.PasswordHasher;
 using TaskManager.Application.Interfaces;
 using TaskManager.Application.Services;
 using TaskManager.Application.ApplicationProfile;
@@ -25,6 +26,7 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<ITaskService, TaskServices>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<ApplicationProfile>();

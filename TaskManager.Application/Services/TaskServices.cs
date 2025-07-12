@@ -7,14 +7,8 @@ using TaskManager.Domain.Models;
 namespace TaskManager.Application.Services;
 
 public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseRepository<Category> categoryRepository,
-    IMapper mapper) : BaseService, ITaskService
+    IMapper mapper) : BaseService<TaskTime>(taskRepository, mapper), ITaskService
 {
-    public async Task<IEnumerable<TaskTime>> GetAllAsync() 
-        => await taskRepository.GetAllAsync();
-
-    public async Task<TaskTime> GetByIdAsync(int id) 
-        => await GetIfNotNull(taskRepository.GetAsync(t => t.Id == id));
-
     public async Task CreateAsync(TaskTimeCreateDto createDto)
     {
         var category = await GetIfNotNull(categoryRepository
@@ -36,11 +30,5 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
     {
         await EnsureSuccess(
             taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime)));
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        await EnsureSuccess(taskRepository.DeleteAsync(
-            await taskRepository.GetAsync(t => t.Id == id)));
     }
 }

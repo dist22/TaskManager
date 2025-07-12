@@ -14,6 +14,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.Property(u => u.CreateAt)
             .HasDefaultValueSql("GETDATE()");
+        
         builder.Property(u => u.IsActive)
             .HasDefaultValue(true);
         

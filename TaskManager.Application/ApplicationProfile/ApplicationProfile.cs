@@ -23,6 +23,15 @@ public class ApplicationProfile : Profile
         CreateMap<CategoryCreateUpdateDto, Category>();
         CreateMap<Category, CategoryCreateUpdateDto>();
 
+        CreateMap<UserDto, User>();
+        CreateMap<User, UserDto>();
+        
+        CreateMap<TaskTimeDto, TaskTime>();
+        CreateMap<TaskTime, TaskTimeDto>();
+        
+        CreateMap<CategoryDto, Category>();
+        CreateMap<Category, CategoryDto>();
+        
     }
     
 }

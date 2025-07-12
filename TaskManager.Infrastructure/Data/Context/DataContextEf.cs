@@ -17,6 +17,7 @@ public class DataContextEf(DbContextOptions<DataContextEf> options) : DbContext(
         modelBuilder.ApplyConfiguration(new TaskTimeConfigure());
         modelBuilder.ApplyConfiguration(new CategorieConfiguration());
         modelBuilder.ApplyConfiguration(new UserTasksConfiguration());
+        modelBuilder.ApplyConfiguration(new UserAuthConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }
