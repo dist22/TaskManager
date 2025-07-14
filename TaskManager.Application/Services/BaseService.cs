@@ -30,7 +30,7 @@ public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapp
         => mapper.Map<IEnumerable<U>>(await repository.GetAllAsync());
     
 
-    public virtual async Task DeleteAsync(Expression<Func<T, bool>> predicate)
+    public virtual async Task ChangeStatusAsync(int id, ActiveStatus status)
     {
         var entity = await GetIfNotNull(repository.GetAsync(predicate));
         await EnsureSuccess(repository.DeleteAsync(entity));
