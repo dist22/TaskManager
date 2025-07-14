@@ -7,7 +7,7 @@ namespace TaskManager.Infrastructure.Repositories;
 
 public class BaseRepository<T>(DataContextEf entity) : IBaseRepository<T> where T : class
 {
-    private readonly DbSet<T> _dbSet = entity.Set<T>();
+    public readonly DbSet<T> _dbSet = entity.Set<T>();
     
     private async Task<bool> SaveChangesAsync()
         => await entity.SaveChangesAsync() > 0;
