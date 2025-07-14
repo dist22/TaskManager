@@ -76,6 +76,8 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
         var userTask = await GetUserTask(userId, taskId);
         
         userTask.IsCompeted = true;
+        userTask.CompetedAt = DateTime.Now;
+        
         await userTaskRepository.UpdateAsync(userTask);
     }
 

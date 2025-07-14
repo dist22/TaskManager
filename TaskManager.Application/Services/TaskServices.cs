@@ -1,6 +1,7 @@
 using AutoMapper;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Enums;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 
@@ -28,7 +29,14 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
 
     public async Task UpdateAsync(int id,TaskTimeEditDto taskTime)
     {
-        await EnsureSuccess(
-            taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime)));
+        var task = await GetIfNotNull(taskRepository.GetAsync(t => t.Id == id));
+        
+        var categoryExist =  await categoryRepository.IfExistAsync(c => c.Id == taskTime.CategoryId && c.IsActive);
+        if (!categoryExist)
+            throw new Exception("Category not found");
+        
+        task = mapper.Map(taskTime, task);
+        
+        await EnsureSuccess(taskRepository.UpdateAsync(task));
     }
 }

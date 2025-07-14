@@ -16,10 +16,10 @@ public class UserTasksConfiguration : IEntityTypeConfiguration<UserTask>
         builder.Property(uf => uf.AssignedAt)
             .HasDefaultValueSql("getdate()");
 
-        builder.Property(uf => uf.IsCompete)
+        builder.Property(uf => uf.IsCompeted)
             .HasDefaultValue(false);
 
-        builder.HasIndex(ut => ut.IsCompete);
+        builder.HasIndex(ut => ut.IsCompeted);
         builder.HasIndex(uf => uf.AssignedAt);
         
         builder.HasOne(ut => ut.User)

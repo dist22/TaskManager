@@ -7,9 +7,7 @@ namespace TaskManager.Application.Interfaces;
 public interface ICategoryService : IBaseService<Category>
 {
     public Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto);
-
-    public Task ChangeStatus(int id, ActiveStatus activeStatus);
-
+    
     public Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int id);
     
 }

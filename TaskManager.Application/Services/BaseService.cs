@@ -7,7 +7,7 @@ using TaskManager.Domain.Interfaces;
 namespace TaskManager.Application.Services;
 
 public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapper)
-    : IBaseService<T> where T : class
+    : IBaseService<T> where T : class, IEntity
 {
     protected async Task<U> GetIfNotNull<U>(Task<U> task)
     {
@@ -23,16 +23,28 @@ public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapp
         throw new NullReferenceException();
     }
 
-    public virtual async Task<U> GetByPredicateAsync<U>(Expression<Func<T, bool>> predicate)
-        => mapper.Map<U>(await GetIfNotNull(repository.GetAsync(predicate)));
+    public virtual async Task<U> GetAsync<U>(int id)
+        => mapper.Map<U>(await GetIfNotNull(repository.GetAsync(e => e.Id == id)));
 
     public virtual async Task<IEnumerable<U>> GetAllAsync<U>()
         => mapper.Map<IEnumerable<U>>(await repository.GetAllAsync());
-    
+
+    public virtual async Task<IEnumerable<U>> GetAllActiveAsync<U>()
+    {
+        var list = await repository.GetAllAsync();
+        return mapper.Map<IEnumerable<U>>(list.Where(e => e.IsActive == true));
+    }
 
     public virtual async Task ChangeStatusAsync(int id, ActiveStatus status)
     {
-        var entity = await GetIfNotNull(repository.GetAsync(predicate));
+        var entity = await GetIfNotNull( repository.GetAsync(e => e.Id == id));
+        entity.IsActive = status == ActiveStatus.Active;
+        await EnsureSuccess(repository.UpdateAsync(entity));
+    }
+
+    public virtual async Task DeleteAsync(int id)
+    {
+        var entity = await GetIfNotNull(repository.GetAsync(e => e.Id == id));
         await EnsureSuccess(repository.DeleteAsync(entity));
     }
 }

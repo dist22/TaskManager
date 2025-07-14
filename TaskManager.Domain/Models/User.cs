@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TaskManager.Domain.Enums;
+using TaskManager.Domain.Interfaces;
 
 namespace TaskManager.Domain.Models;
 
-public class User 
+public class User : IEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
