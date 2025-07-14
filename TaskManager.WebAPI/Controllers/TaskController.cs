@@ -18,6 +18,9 @@ public class TaskController(ITaskService taskService) : ControllerBase
     [HttpGet("all")]
     public async Task<IEnumerable<TaskTimeDto>> GetAllAsyncController() 
         => await taskService.GetAllAsync<TaskTimeDto>();
+    [HttpGet("sort")]
+    public async Task<IEnumerable<TaskTimeDto>> GetSortedByAsyncController(TaskSortBy taskSortBy, bool desc) 
+        => await taskService.GetSortedAsync(taskSortBy, desc);
 
     [HttpGet("active")]
     public async Task<IEnumerable<TaskTimeDto>> GetActiveAsyncController()
