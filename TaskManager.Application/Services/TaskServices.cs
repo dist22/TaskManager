@@ -26,7 +26,7 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
             taskRepository.AddAsync(task));
     }
 
-    public async Task UpdateAsync(TaskTimeEditDto taskTime)
+    public async Task UpdateAsync(int id,TaskTimeEditDto taskTime)
     {
         await EnsureSuccess(
             taskRepository.UpdateAsync(mapper.Map<TaskTime>(taskTime)));
