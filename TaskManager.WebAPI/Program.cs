@@ -14,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(cfg =>
 {
     cfg.UseInlineDefinitionsForEnums();
+    cfg.SchemaGeneratorOptions.UseAllOfForInheritance = false;
+    cfg.SchemaGeneratorOptions.UseAllOfToExtendReferenceSchemas = false;
+
 });
 
 builder.Services.AddDbContext<DataContextEf>(option =>
