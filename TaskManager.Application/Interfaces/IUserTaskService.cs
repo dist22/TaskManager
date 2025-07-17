@@ -10,6 +10,6 @@ public interface IUserTaskService
     public Task UnassignTaskAsync(int userId, int taskId);
     public Task<IEnumerable<TaskTimeDto>> GetTaskByUserIdAsync(int userId);
     public Task<IEnumerable<UserDto>> GetUsersByTaskIdAsync(int taskId);
-    public Task CompleteUserTaskAsync(int userId, int taskId);
+    public Task CompletedUncompletedUserTaskAsync(int userId, int taskId, bool completed = false);
 
 }
