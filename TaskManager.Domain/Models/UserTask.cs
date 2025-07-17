@@ -9,7 +9,6 @@ public class UserTask
     public int TaskId { get; set; }
     public DateTime AssignedAt { get; set; }
     public bool IsCompeted { get; set; }
-    
     public DateTime? CompetedAt { get; set; }
     public User? User { get; set; }
     public TaskTime? Task { get; set; }

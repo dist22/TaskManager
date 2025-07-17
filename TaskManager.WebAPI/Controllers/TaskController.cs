@@ -21,15 +21,22 @@ public class TaskController(ITaskService taskService) : ControllerBase
     [HttpGet("sort")]
     public async Task<IEnumerable<TaskTimeDto>> GetSortedByAsyncController(TaskSortBy taskSortBy, bool desc) 
         => await taskService.GetSortedAsync(taskSortBy, desc);
-
-    [HttpGet("active")]
-    public async Task<IEnumerable<TaskTimeDto>> GetActiveAsyncController()
-        => await taskService.GetAllActiveAsync<TaskTimeDto>();
-
+    
+    [HttpGet("filter")]
+    public IEnumerable<TaskTimeDto> FilterTaskTimeController([FromQuery]TaskTimeFilterDto filterDto) 
+        => taskService.FilterTaskTime(filterDto);
+    
     [HttpPost("task/post")]
     public async Task<IActionResult> CreateTaskAsyncController([FromForm] TaskTimeCreateDto taskTime)
     {
         await taskService.CreateAsync(taskTime);
+        return Ok();
+    }
+
+    [HttpPatch("task/{id}/change-status")]
+    public async Task<IActionResult> ChangeTaskStatusAsyncController(int id, ActiveStatus activeStatus)
+    {
+        await taskService.ChangeStatusAsync(id, activeStatus);
         return Ok();
     }
 

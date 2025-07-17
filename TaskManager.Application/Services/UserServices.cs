@@ -38,5 +38,21 @@ public class UserServices(IBaseRepository<User> userRepository, IBaseRepository<
         await EnsureSuccess(userRepository.UpdateAsync(user));
 
     }
-    
+
+    public IEnumerable<UserDto> FilterAsync(UserFilterDto filter)
+    {
+        var query = userRepository.GetQueryableAsync();
+        
+        if (!string.IsNullOrEmpty(filter.Email))
+            query = query.Where(u => u.Email.Contains(filter.Email));
+        if(!string.IsNullOrEmpty(filter.Name))
+            query = query.Where(u => u.Email.Contains(filter.Name));
+        if (filter.IsActive.HasValue)
+            query = query.Where(u => u.IsActive == filter.IsActive);
+
+        var users = query.ToList();
+
+        return mapper.Map<IEnumerable<UserDto>>(users);
+        
+    }
 }

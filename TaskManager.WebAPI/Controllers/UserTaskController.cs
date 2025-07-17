@@ -21,7 +21,14 @@ public class UserTaskController(IUserTaskService userTaskService) : ControllerBa
     [HttpPatch("{taskId},{userId}/complete")]
     public async Task<IActionResult> CompleteUserTaskAsyncController(int userId, int taskId)
     {
-        await userTaskService.CompleteUserTaskAsync(userId, taskId);
+        await userTaskService.CompletedUncompletedUserTaskAsync(userId, taskId, true);
+        return Ok();
+    }
+
+    [HttpPatch("{taskId},{userId}/uncomplete")]
+    public async Task<IActionResult> InCompeteUserTaskAsyncController(int userId, int taskId)
+    {
+        await userTaskService.CompletedUncompletedUserTaskAsync(userId, taskId);
         return Ok();
     }
 

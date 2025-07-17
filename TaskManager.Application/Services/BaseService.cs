@@ -28,13 +28,7 @@ public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapp
 
     public virtual async Task<IEnumerable<U>> GetAllAsync<U>()
         => mapper.Map<IEnumerable<U>>(await repository.GetAllAsync());
-
-    public virtual async Task<IEnumerable<U>> GetAllActiveAsync<U>()
-    {
-        var list = await repository.GetAllAsync();
-        return mapper.Map<IEnumerable<U>>(list.Where(e => e.IsActive == true));
-    }
-
+    
     public virtual async Task ChangeStatusAsync(int id, ActiveStatus status)
     {
         var entity = await GetIfNotNull( repository.GetAsync(e => e.Id == id));

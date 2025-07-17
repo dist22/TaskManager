@@ -17,11 +17,11 @@ public class UserController(IUserServices userServices) : ControllerBase
     [HttpGet("all")]
     public async Task<IEnumerable<UserDto>> GetAllAsyncController() 
         => await userServices.GetAllAsync<UserDto>();
-    
-    [HttpGet("active")]
-    public async Task<IEnumerable<UserDto>> GetAllActiveAsyncController()
-        => await userServices.GetAllActiveAsync<UserDto>();
 
+    [HttpGet("filter")]
+    public IEnumerable<UserDto> FilterAsync([FromQuery] UserFilterDto userFilterDto) 
+        => userServices.FilterAsync(userFilterDto);
+            
     [HttpPost("user/post")]
     public async Task<IActionResult> CreateUserAsyncController([FromForm] UserCreateDto user)
     {

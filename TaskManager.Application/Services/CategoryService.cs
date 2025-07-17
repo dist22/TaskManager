@@ -23,4 +23,21 @@ public class CategoryService(IBaseRepository<Category> categoryRepository, IMapp
         
         await EnsureSuccess( categoryRepository.UpdateAsync(category));
     }
+
+    public IEnumerable<CategoryDto> FilterCategory(CategoryFilterDto filterDto)
+    {
+        var query = categoryRepository.GetQueryableAsync();
+        
+        if (!string.IsNullOrEmpty(filterDto.Name))
+            query = query.Where(c => c.Name.Contains(filterDto.Name));
+        if(!string.IsNullOrEmpty(filterDto.Description))
+            query = query.Where(c => c.Description.Contains(filterDto.Description));
+        
+        if(filterDto.IsActive.HasValue)
+            query = query.Where(c => c.IsActive == filterDto.IsActive);
+        
+        var categories = query.ToList();
+        return mapper.Map<IEnumerable<CategoryDto>>(categories);
+        
+    }
 }

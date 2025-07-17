@@ -33,6 +33,8 @@ public class BaseRepository<T>(DataContextEf entity) : IBaseRepository<T> where 
         => await  _dbSet
             .AsNoTracking()
             .ToListAsync();
+    public IQueryable<T> GetQueryableAsync()
+        => _dbSet.AsQueryable();
 
     public async Task<bool> DeleteAsync(T @object)
     {

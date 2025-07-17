@@ -20,9 +20,9 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
     public async Task<IEnumerable<CategoryDto>> GetAllAsyncController()
         => await categoryService.GetAllAsync<CategoryDto>();
 
-    [HttpGet("active")]
-    public async Task<IEnumerable<CategoryDto>> GetActiveAsyncController()
-        => await categoryService.GetAllActiveAsync<CategoryDto>();
+    [HttpGet("filter")]
+    public IEnumerable<CategoryDto> FilterCategoryController(CategoryFilterDto filterDto)
+        => categoryService.FilterCategory(filterDto);
  
     [HttpPost]
     public async Task<IActionResult> CreateCategoryAsyncController([FromForm] CategoryCreateUpdateDto categoryCreateUpdateDto)

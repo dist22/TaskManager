@@ -53,7 +53,7 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
             CreateAt = ut.Task.CreateAt,
             DueDate = ut.Task.DueDate,
             Priority = ut.Task.Priority,
-            IsCompleted = ut.IsCompeted,
+            IsActive = ut.Task.IsActive
         });
     }
 
@@ -71,13 +71,21 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
         });
     }
 
-    public async Task CompleteUserTaskAsync(int userId, int taskId)
+    public async Task CompletedUncompletedUserTaskAsync(int userId, int taskId, bool completed = false)
     {
         var userTask = await GetUserTask(userId, taskId);
-        
-        userTask.IsCompeted = true;
-        userTask.CompetedAt = DateTime.Now;
-        
+
+        if (completed)
+        {
+            userTask.IsCompeted = true;
+            userTask.CompetedAt = DateTime.Now;
+        }
+        else
+        {
+            userTask.IsCompeted = false;
+            userTask.CompetedAt = null;
+        }
+
         await userTaskRepository.UpdateAsync(userTask);
     }
 

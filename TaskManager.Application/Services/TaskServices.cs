@@ -54,4 +54,22 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
         
         return mapper.Map<IEnumerable<TaskTimeDto>>(tasks);
     }
+
+    public IEnumerable<TaskTimeDto> FilterTaskTime(TaskTimeFilterDto filter)
+    {
+        var query = taskRepository.GetQueryableAsync();
+        
+        if (!string.IsNullOrEmpty(filter.Title))
+            query = query.Where(t => t.Title.Contains(filter.Title));
+        if(!string.IsNullOrEmpty(filter.Description))
+            query = query.Where(t => t.Description.Contains(filter.Description));
+        if(!string.IsNullOrEmpty(filter.CategoryName))
+            query = query.Where(t => t.CategoryName.Contains(filter.CategoryName));
+        if(filter.IsActive.HasValue)
+            query = query.Where(t => t.IsActive == filter.IsActive);
+        
+        var tasks = query.ToList();
+        return mapper.Map<IEnumerable<TaskTimeDto>>(tasks);
+        
+    }
 }

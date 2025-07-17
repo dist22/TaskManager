@@ -11,6 +11,7 @@ public interface IBaseRepository<T> where T : class
     public Task<T?> GetAsync(Expression<Func<T?, bool>> predicate);
     
     public Task<IEnumerable<T>> GetAllAsync();
+    public IQueryable<T> GetQueryableAsync();
     
     public Task<bool> DeleteAsync(T @object);
     
