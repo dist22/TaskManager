@@ -8,8 +8,6 @@ public interface IBaseService<T> where T : class
     public Task<U> GetAsync<U>(int id);
 
     public Task<IEnumerable<U>> GetAllAsync<U>();
-
-    public Task<IEnumerable<U>> GetAllActiveAsync<U>();
     
     public Task DeleteAsync(int id);
 
