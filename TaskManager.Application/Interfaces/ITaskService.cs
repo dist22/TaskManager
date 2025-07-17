@@ -12,4 +12,6 @@ public interface ITaskService : IBaseService<TaskTime>
     
     public Task<IEnumerable<TaskTimeDto>> GetSortedAsync(TaskSortBy sortBy, bool desc = false);
     
+    public IEnumerable<TaskTimeDto> FilterTaskTime(TaskTimeFilterDto filter);
+    
 }

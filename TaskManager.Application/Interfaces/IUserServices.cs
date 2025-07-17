@@ -12,4 +12,6 @@ public interface IUserServices : IBaseService<User>
     
     public Task UpdateAsync(UserEditDto userEditDto, int id);
     
+    public IEnumerable<UserDto> FilterAsync(UserFilterDto userFilterDto);
+    
 }
