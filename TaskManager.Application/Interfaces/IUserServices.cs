@@ -7,11 +7,8 @@ namespace TaskManager.Application.Interfaces;
 
 public interface IUserServices : IBaseService<User>
 {
-   
-    public Task CreateAsync(UserCreateDto userCreateDto);
-    
     public Task UpdateAsync(UserEditDto userEditDto, int id);
     
-    public IEnumerable<UserDto> FilterAsync(UserFilterDto userFilterDto);
+    public IEnumerable<UserDto> FilterSortUser(UserFilterSortDto userFilterSortDto);
     
 }

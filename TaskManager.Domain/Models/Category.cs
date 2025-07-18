@@ -14,7 +14,6 @@ public class Category : IEntity
     public string Description { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
     public bool IsActive { get; set; } = true;
-
     public ICollection<TaskTime> Tasks { get; set; } = new List<TaskTime>();
 
 }

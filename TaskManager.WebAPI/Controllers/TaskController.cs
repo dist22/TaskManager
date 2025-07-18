@@ -18,13 +18,10 @@ public class TaskController(ITaskService taskService) : ControllerBase
     [HttpGet("all")]
     public async Task<IEnumerable<TaskTimeDto>> GetAllAsyncController() 
         => await taskService.GetAllAsync<TaskTimeDto>();
-    [HttpGet("sort")]
-    public async Task<IEnumerable<TaskTimeDto>> GetSortedByAsyncController(TaskSortBy taskSortBy, bool desc) 
-        => await taskService.GetSortedAsync(taskSortBy, desc);
     
-    [HttpGet("filter")]
-    public IEnumerable<TaskTimeDto> FilterTaskTimeController([FromQuery]TaskTimeFilterDto filterDto) 
-        => taskService.FilterTaskTime(filterDto);
+    [HttpGet("filterSort-sort")]
+    public IEnumerable<TaskTimeDto> FilterTaskTimeController([FromQuery]TaskTimeFilterSortDto filterSortDto) 
+        => taskService.FilterSortTaskTime(filterSortDto);
     
     [HttpPost("task/post")]
     public async Task<IActionResult> CreateTaskAsyncController([FromForm] TaskTimeCreateDto taskTime)

@@ -152,6 +152,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "D:\\C#Projects\\TaskManager\\TaskManager.Application\\TaskManager.Application.csproj": {
+                "projectPath": "D:\\C#Projects\\TaskManager\\TaskManager.Application\\TaskManager.Application.csproj"
+              },
               "D:\\C#Projects\\TaskManager\\TaskManager.Domain\\TaskManager.Domain.csproj": {
                 "projectPath": "D:\\C#Projects\\TaskManager\\TaskManager.Domain\\TaskManager.Domain.csproj"
               }

@@ -20,9 +20,9 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
     public async Task<IEnumerable<CategoryDto>> GetAllAsyncController()
         => await categoryService.GetAllAsync<CategoryDto>();
 
-    [HttpGet("filter")]
-    public IEnumerable<CategoryDto> FilterCategoryController(CategoryFilterDto filterDto)
-        => categoryService.FilterCategory(filterDto);
+    [HttpGet("filterSort-sort")]
+    public IEnumerable<CategoryDto> FilterCategoryController([FromQuery]CategoryFilterSortDto filterSortDto)
+        => categoryService.FilterSortCategory(filterSortDto);
  
     [HttpPost]
     public async Task<IActionResult> CreateCategoryAsyncController([FromForm] CategoryCreateUpdateDto categoryCreateUpdateDto)

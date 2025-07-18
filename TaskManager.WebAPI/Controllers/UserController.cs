@@ -18,16 +18,10 @@ public class UserController(IUserServices userServices) : ControllerBase
     public async Task<IEnumerable<UserDto>> GetAllAsyncController() 
         => await userServices.GetAllAsync<UserDto>();
 
-    [HttpGet("filter")]
-    public IEnumerable<UserDto> FilterAsync([FromQuery] UserFilterDto userFilterDto) 
-        => userServices.FilterAsync(userFilterDto);
-            
-    [HttpPost("user/post")]
-    public async Task<IActionResult> CreateUserAsyncController([FromForm] UserCreateDto user)
-    {
-        await userServices.CreateAsync(user);
-        return Ok();
-    }
+    [HttpGet("filter-sort")]
+    public IEnumerable<UserDto> FilterAsync([FromQuery]UserFilterSortDto userFilterSortDto) 
+        => userServices.FilterSortUser(userFilterSortDto);
+    
 
     [HttpPut("user-edit/{id}")]
     public async Task<IActionResult> EditUserAsyncController([FromForm] UserEditDto userEditDto, int id)

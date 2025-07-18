@@ -24,17 +24,26 @@ public class CategoryService(IBaseRepository<Category> categoryRepository, IMapp
         await EnsureSuccess( categoryRepository.UpdateAsync(category));
     }
 
-    public IEnumerable<CategoryDto> FilterCategory(CategoryFilterDto filterDto)
+    public IEnumerable<CategoryDto> FilterSortCategory(CategoryFilterSortDto filterSortDto)
     {
         var query = categoryRepository.GetQueryableAsync();
         
-        if (!string.IsNullOrEmpty(filterDto.Name))
-            query = query.Where(c => c.Name.Contains(filterDto.Name));
-        if(!string.IsNullOrEmpty(filterDto.Description))
-            query = query.Where(c => c.Description.Contains(filterDto.Description));
-        
-        if(filterDto.IsActive.HasValue)
-            query = query.Where(c => c.IsActive == filterDto.IsActive);
+        if (!string.IsNullOrEmpty(filterSortDto.Name))
+            query = query.Where(c => c.Name.Contains(filterSortDto.Name));
+        if(!string.IsNullOrEmpty(filterSortDto.Description))
+            query = query.Where(c => c.Description.Contains(filterSortDto.Description));
+        if(filterSortDto.IsActive.HasValue)
+            query = query.Where(c => c.IsActive == filterSortDto.IsActive);
+
+        query = filterSortDto.SortBy switch
+        {
+            CategorySortBy.Id => filterSortDto.Descending
+                ? query.OrderByDescending(c => c.Id)
+                : query.OrderBy(c => c.Id),
+            CategorySortBy.Name => filterSortDto.Descending
+                ? query.OrderByDescending(c => c.Name)
+                : query.OrderBy(c => c.Name)
+        };
         
         var categories = query.ToList();
         return mapper.Map<IEnumerable<CategoryDto>>(categories);

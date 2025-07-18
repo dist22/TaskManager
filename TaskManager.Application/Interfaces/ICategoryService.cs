@@ -10,6 +10,6 @@ public interface ICategoryService : IBaseService<Category>
     
     public Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int id);
     
-    public IEnumerable<CategoryDto> FilterCategory(CategoryFilterDto filterDto);
+    public IEnumerable<CategoryDto> FilterSortCategory(CategoryFilterSortDto filterSortDto);
     
 }

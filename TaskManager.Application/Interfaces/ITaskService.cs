@@ -10,8 +10,6 @@ public interface ITaskService : IBaseService<TaskTime>
     
     public Task UpdateAsync(int id, TaskTimeEditDto taskTime);
     
-    public Task<IEnumerable<TaskTimeDto>> GetSortedAsync(TaskSortBy sortBy, bool desc = false);
-    
-    public IEnumerable<TaskTimeDto> FilterTaskTime(TaskTimeFilterDto filter);
+    public IEnumerable<TaskTimeDto> FilterSortTaskTime(TaskTimeFilterSortDto filterSort);
     
 }
