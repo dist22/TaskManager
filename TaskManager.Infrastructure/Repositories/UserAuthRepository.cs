@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Application.Interfaces.Repositories;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 using TaskManager.Infrastructure.Data.Context;

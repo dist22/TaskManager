@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
+using TaskManager.Application.Interfaces.PasswordHasher;
 using TaskManager.Domain.Enums;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;

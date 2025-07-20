@@ -2,6 +2,8 @@ using AutoMapper;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Application.Interfaces.JwtProvider;
+using TaskManager.Application.Interfaces.PasswordHasher;
+using TaskManager.Application.Interfaces.Repositories;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 

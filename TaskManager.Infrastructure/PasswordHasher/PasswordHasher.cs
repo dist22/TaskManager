@@ -1,3 +1,4 @@
+using TaskManager.Application.Interfaces.PasswordHasher;
 using TaskManager.Domain.Interfaces;
 
 namespace TaskManager.Infrastructure.PasswordHasher;

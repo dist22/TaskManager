@@ -1,6 +1,7 @@
+using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 
-namespace TaskManager.Domain.Interfaces;
+namespace TaskManager.Application.Interfaces.Repositories;
 
 public interface IUserAuthRepository : IBaseRepository<UserAuth>
 {

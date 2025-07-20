@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TaskManager.Infrastructure.Data.Context;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Repositories;
@@ -7,8 +8,11 @@ using TaskManager.Application.Interfaces;
 using TaskManager.Application.Services;
 using TaskManager.Application.ApplicationProfile;
 using TaskManager.Application.Interfaces.JwtProvider;
+using TaskManager.Application.Interfaces.PasswordHasher;
+using TaskManager.Application.Interfaces.Repositories;
 using TaskManager.Infrastructure.Data.Configuration;
 using TaskManager.Infrastructure.JwtProvider;
+using TaskManager.WebAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +20,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(cfg =>
 {
+    cfg.SwaggerDoc("v1", new OpenApiInfo { Title = "TaskManager API", Version = "v1" });
     cfg.UseInlineDefinitionsForEnums();
     cfg.SchemaGeneratorOptions.UseAllOfForInheritance = false;
     cfg.SchemaGeneratorOptions.UseAllOfToExtendReferenceSchemas = false;
+    cfg.SchemaFilter<EnumSchemaFilter>();
 
 });
 
@@ -26,6 +32,8 @@ builder.Services.AddDbContext<DataContextEf>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
 });
+
+builder.Services.AddAuthentication(builder.Configuration);
 
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection("JwtOptions"));
@@ -52,4 +60,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DataContextEf>();
+    dbContext.Database.Migrate();
+}
+
 app.Run();
