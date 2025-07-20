@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
@@ -8,7 +9,7 @@ namespace TaskManager.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/categories")]
-
+[Authorize]
 public class CategoryController(ICategoryService categoryService) : ControllerBase
 {
 
@@ -20,7 +21,7 @@ public class CategoryController(ICategoryService categoryService) : ControllerBa
     public async Task<IEnumerable<CategoryDto>> GetAllAsyncController()
         => await categoryService.GetAllAsync<CategoryDto>();
 
-    [HttpGet("filterSort-sort")]
+    [HttpGet("filter-sort")]
     public IEnumerable<CategoryDto> FilterCategoryController([FromQuery]CategoryFilterSortDto filterSortDto)
         => categoryService.FilterSortCategory(filterSortDto);
  

@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using TaskManager.Domain.Models;
 using TaskManager.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTO;
 using TaskManager.Domain.Enums;
+using TaskManager.WebAPI.Extensions;
 
 namespace TaskManager.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UserController(IUserServices userServices) : ControllerBase
 {
     [HttpGet("user/{id}")]
@@ -18,12 +21,16 @@ public class UserController(IUserServices userServices) : ControllerBase
     public async Task<IEnumerable<UserDto>> GetAllAsyncController() 
         => await userServices.GetAllAsync<UserDto>();
 
+    [HttpGet("log-user")]
+    public async Task<UserDto> GetloginedUserAsyncController()
+        => await userServices.GetAsync<UserDto>(this.GetUserId());
+
     [HttpGet("filter-sort")]
     public IEnumerable<UserDto> FilterAsync([FromQuery]UserFilterSortDto userFilterSortDto) 
         => userServices.FilterSortUser(userFilterSortDto);
     
 
-    [HttpPut("user-edit/{id}")]
+    [HttpPut("user/{id}/edit")]
     public async Task<IActionResult> EditUserAsyncController([FromForm] UserEditDto userEditDto, int id)
     {
         await userServices.UpdateAsync(userEditDto, id);

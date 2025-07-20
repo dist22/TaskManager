@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
@@ -8,6 +9,7 @@ namespace TaskManager.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/tasks")]
+[Authorize]
 
 public class TaskController(ITaskService taskService) : ControllerBase
 {
@@ -19,7 +21,7 @@ public class TaskController(ITaskService taskService) : ControllerBase
     public async Task<IEnumerable<TaskTimeDto>> GetAllAsyncController() 
         => await taskService.GetAllAsync<TaskTimeDto>();
     
-    [HttpGet("filterSort-sort")]
+    [HttpGet("filter-sort")]
     public IEnumerable<TaskTimeDto> FilterTaskTimeController([FromQuery]TaskTimeFilterSortDto filterSortDto) 
         => taskService.FilterSortTaskTime(filterSortDto);
     
