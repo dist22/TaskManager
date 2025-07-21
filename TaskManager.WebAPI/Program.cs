@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using TaskManager.Infrastructure.Data.Context;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Repositories;
@@ -52,6 +54,14 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<ApplicationProfile>();
+});
+builder.Host.UseSerilog((context, cfg) =>
+{
+    cfg
+        .WriteTo.Console()
+        .WriteTo.File("log_info.txt",restrictedToMinimumLevel: LogEventLevel.Information, rollingInterval: RollingInterval.Day)
+        .WriteTo.File("log_error.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day)
+        .Enrich.FromLogContext();
 });
 
 var app = builder.Build();
