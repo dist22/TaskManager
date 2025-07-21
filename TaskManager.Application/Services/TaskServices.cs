@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Enums;
@@ -8,12 +9,14 @@ using TaskManager.Domain.Models;
 namespace TaskManager.Application.Services;
 
 public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseRepository<Category> categoryRepository,
-    IMapper mapper) : BaseService<TaskTime>(taskRepository, mapper), ITaskService
+    IMapper mapper, ILogger<TaskServices> _logger) : BaseService<TaskTime>(taskRepository, mapper), ITaskService
 {
     public async Task CreateAsync(TaskTimeCreateDto createDto)
     {
         var category = await GetIfNotNull(categoryRepository
             .GetAsync(c => c.Id == createDto.CategoryId && c.IsActive));
+        
+        _logger.LogInformation("Category for new task completely found");
 
         var task = new TaskTime
         {
@@ -25,6 +28,8 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
         
         await EnsureSuccess( 
             taskRepository.AddAsync(task));
+        
+        _logger.LogInformation("Task successfully created");
     }
 
     public async Task UpdateAsync(int id,TaskTimeEditDto taskTime)
@@ -38,10 +43,14 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
         task = mapper.Map(taskTime, task);
         
         await EnsureSuccess(taskRepository.UpdateAsync(task));
+        _logger.LogInformation("Task successfully updated");
     }
     
     public IEnumerable<TaskTimeDto> FilterSortTaskTime(TaskTimeFilterSortDto filterSort)
     {
+        
+        _logger.LogInformation($"Start task filter-sort: {filterSort}");
+        
         var query = taskRepository.GetQueryableAsync();
         
         if (!string.IsNullOrEmpty(filterSort.Title))
@@ -52,6 +61,8 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
             query = query.Where(t => t.CategoryName.Contains(filterSort.CategoryName));
         if(filterSort.IsActive.HasValue)
             query = query.Where(t => t.IsActive == filterSort.IsActive);
+        
+        _logger.LogInformation($"Finish task filter");
 
         query = filterSort.SortBy switch
         {
@@ -68,6 +79,7 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
                 ? query.OrderByDescending(t => t.Priority)
                 : query.OrderBy(t => t.Priority),
         };
+        _logger.LogInformation($"Finish task filter-sort");
         
         var tasks = query.ToList();
         return mapper.Map<IEnumerable<TaskTimeDto>>(tasks);

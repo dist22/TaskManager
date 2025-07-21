@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Application.Interfaces.PasswordHasher;
@@ -11,19 +12,26 @@ using Task = System.Threading.Tasks.Task;
 namespace TaskManager.Application.Services;
 
 public class UserServices(IBaseRepository<User> userRepository, IBaseRepository<UserAuth> userAuthRepository, 
-    IMapper mapper, IPasswordHasher passwordHasher) : BaseService<User>(userRepository, mapper), IUserServices
+    IMapper mapper, ILogger<TaskServices> _logger) : BaseService<User>(userRepository, mapper), IUserServices
 {
     public async Task UpdateAsync(UserEditDto userEditDto, int id)
     {
 
+        _logger.LogInformation($"User with id-{id} updating");
+        
         var user = await GetIfNotNull(userRepository.GetAsync(u => u.Id == id));
         user = mapper.Map(userEditDto, user);
         await EnsureSuccess(userRepository.UpdateAsync(user));
+        
+        _logger.LogInformation($"User with id-{id} updated");
 
     }
 
     public IEnumerable<UserDto> FilterSortUser(UserFilterSortDto filterSort)
     {
+        
+        _logger.LogInformation($"Start user filter-sort: {filterSort}");
+        
         var query = userRepository.GetQueryableAsync();
         
         if (!string.IsNullOrEmpty(filterSort.Email))
@@ -32,6 +40,8 @@ public class UserServices(IBaseRepository<User> userRepository, IBaseRepository<
             query = query.Where(u => u.Email.Contains(filterSort.Name));
         if (filterSort.IsActive.HasValue)
             query = query.Where(u => u.IsActive == filterSort.IsActive);
+        
+        _logger.LogInformation($"Finish user filter");
 
         query = filterSort.SortBy switch
         {
@@ -45,9 +55,12 @@ public class UserServices(IBaseRepository<User> userRepository, IBaseRepository<
                 ?  query.OrderByDescending(t => t.Name)
                 :  query.OrderBy(t => t.Name)
         };
+        
+        _logger.LogInformation($"Finish user filter-sort");
 
         var users = query.ToList();
         return mapper.Map<IEnumerable<UserDto>>(users);
+        
         
     }
 }

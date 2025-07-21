@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Enums;
@@ -8,7 +9,7 @@ using TaskManager.Domain.Models;
 namespace TaskManager.Application.Services;
 
 public class UserTaskService(IBaseRepository<User> userRepository, IBaseRepository<TaskTime> taskRepository, 
-    IUserTaskRepository userTaskRepository, IMapper mapper) : IUserTaskService
+    IUserTaskRepository userTaskRepository, ILogger<UserTaskService> _logger) : IUserTaskService
 {
     public async Task AssignTaskAsync(int userId, int taskId)
     {
@@ -30,6 +31,8 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
         };
         
         await userTaskRepository.AddAsync(userTask);
+        
+        _logger.LogInformation($"Assigned task {taskId} to user {userId}");
     }
 
     public async Task UnassignTaskAsync(int userId, int taskId)
@@ -39,11 +42,15 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
         var userTask = await GetUserTask(userId, taskId);
         
         await userTaskRepository.DeleteAsync(userTask);
+        
+        _logger.LogInformation($"Unassign task {taskId} from user {userId}");
     }
 
     public async Task<IEnumerable<TaskTimeDto>> GetTaskByUserIdAsync(int userId)
     {
         var taskList = await userTaskRepository.GetTasksByUserIdAsync(userId);
+        
+        _logger.LogInformation($"Getting tasks for user {userId}");
 
         return taskList.Select(ut => new TaskTimeDto
         {
@@ -60,6 +67,7 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
     public async Task<IEnumerable<UserDto>> GetUsersByTaskIdAsync(int taskId)
     {
         var userList = await userTaskRepository.GetUsersByTaskIdAsync(taskId);
+        _logger.LogInformation($"Getting users for task {taskId}");
 
         return userList.Select(ut => new UserDto
         {
@@ -77,16 +85,19 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
 
         if (completed)
         {
+            _logger.LogInformation($"Task {taskId} has been completed");
             userTask.IsCompeted = true;
             userTask.CompetedAt = DateTime.Now;
         }
         else
         {
+            _logger.LogInformation($"Task {taskId} has not been completed");
             userTask.IsCompeted = false;
             userTask.CompetedAt = null;
         }
-
+        
         await userTaskRepository.UpdateAsync(userTask);
+        _logger.LogInformation($"Task {taskId}, status has been updated from user {userId}");
     }
 
     private async Task UserTaskExists(int userId, int taskId)

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Enums;
@@ -7,7 +8,7 @@ using TaskManager.Domain.Models;
 
 namespace TaskManager.Application.Services;
 
-public class CategoryService(IBaseRepository<Category> categoryRepository, IMapper mapper) 
+public class CategoryService(IBaseRepository<Category> categoryRepository, IMapper mapper, ILogger<CategoryService> _logger) 
     : BaseService<Category>(categoryRepository, mapper), ICategoryService
 {
     public async Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto) 
@@ -22,10 +23,14 @@ public class CategoryService(IBaseRepository<Category> categoryRepository, IMapp
         category.Description = categoryCreateUpdateDto.Description;
         
         await EnsureSuccess( categoryRepository.UpdateAsync(category));
+        _logger.LogInformation($"Update category: {category.Name}");
     }
 
     public IEnumerable<CategoryDto> FilterSortCategory(CategoryFilterSortDto filterSortDto)
     {
+        
+        _logger.LogInformation($"Start task filter-sort: {filterSortDto}");
+        
         var query = categoryRepository.GetQueryableAsync();
         
         if (!string.IsNullOrEmpty(filterSortDto.Name))
@@ -34,6 +39,8 @@ public class CategoryService(IBaseRepository<Category> categoryRepository, IMapp
             query = query.Where(c => c.Description.Contains(filterSortDto.Description));
         if(filterSortDto.IsActive.HasValue)
             query = query.Where(c => c.IsActive == filterSortDto.IsActive);
+        
+        _logger.LogInformation($"Finish category filter");
 
         query = filterSortDto.SortBy switch
         {
@@ -44,6 +51,8 @@ public class CategoryService(IBaseRepository<Category> categoryRepository, IMapp
                 ? query.OrderByDescending(c => c.Name)
                 : query.OrderBy(c => c.Name)
         };
+        
+        _logger.LogInformation($"Finish category filter-sort");
         
         var categories = query.ToList();
         return mapper.Map<IEnumerable<CategoryDto>>(categories);
