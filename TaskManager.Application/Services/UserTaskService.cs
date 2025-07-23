@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using TaskManager.Application.DTO;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Enums;
+using TaskManager.Domain.Exceptions;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 
@@ -20,7 +21,7 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
             ut => ut.UserId == userId && ut.TaskId == taskId);
         
         if(alreadyAssigned)
-            throw new Exception("Task already assigned for this user");
+            throw new ConflictException($"Task:{taskId} already assigned for user:{userId}");
 
         var userTask = new UserTask
         {
@@ -106,11 +107,11 @@ public class UserTaskService(IBaseRepository<User> userRepository, IBaseReposito
         var taskExist =  await taskRepository.IfExistAsync(t => t.Id == taskId && t.IsActive == true);
 
         if (!userExist && !taskExist)
-            throw new Exception("User or task not exist");
+            throw new NotFoundException("User or task not exist or active status if false");
     }
 
     private async Task<UserTask> GetUserTask(int userId, int taskId) 
         => await userTaskRepository.GetAsync(ut => ut.UserId == userId && ut.TaskId == taskId) ??
-            throw new Exception("User or task not exist");
+            throw new NotFoundException($"User:{userId} or task:{taskId} not exist");
 
 }

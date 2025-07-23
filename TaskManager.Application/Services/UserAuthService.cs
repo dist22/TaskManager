@@ -5,6 +5,7 @@ using TaskManager.Application.Interfaces;
 using TaskManager.Application.Interfaces.JwtProvider;
 using TaskManager.Application.Interfaces.PasswordHasher;
 using TaskManager.Application.Interfaces.Repositories;
+using TaskManager.Domain.Exceptions;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Domain.Models;
 
@@ -17,11 +18,11 @@ public class UserAuthService(IBaseRepository<User> userRepository, IUserAuthRepo
     {
         _logger.LogInformation($"Stating user creating: {userCreateDto.Email}");
         if (userCreateDto.Password != userCreateDto.PasswordConfirm)
-            throw new Exception("Passwords do not match!");
+            throw new ConflictException("Passwords do not match!");
         
         var emailExist = await userAuthRepository.IfExistAsync(u => u.Email == userCreateDto.Email);
         if(emailExist)
-            throw new Exception("Email already exist!");
+            throw new ConflictException($"Email:{userCreateDto.Email} already exist!");
         
         var user = mapper.Map<User>(userCreateDto);
         await EnsureSuccess( userRepository.AddAsync(user));
@@ -44,7 +45,7 @@ public class UserAuthService(IBaseRepository<User> userRepository, IUserAuthRepo
         var userAuth = await GetIfNotNull(userAuthRepository.GetUserAuthAsync(userLoginDto.Email));
         var passwordMatch = passwordHasher.Verify(userLoginDto.Password, userAuth.Password);
         if(!passwordMatch)
-            throw new Exception("Passwords do not match!");
+            throw new ConflictException("Uncorrected password");
         
         var token = jwtProvider.CreateToken(userAuth.User);
 

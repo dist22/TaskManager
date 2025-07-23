@@ -11,9 +11,12 @@ namespace TaskManager.Application.Services;
 public class CategoryService(IBaseRepository<Category> categoryRepository, IMapper mapper, ILogger<CategoryService> _logger) 
     : BaseService<Category>(categoryRepository, mapper), ICategoryService
 {
-    public async Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto) 
-        => await EnsureSuccess(categoryRepository.AddAsync(
+    public async Task Create(CategoryCreateUpdateDto categoryCreateUpdateDto)
+    {
+        await EnsureSuccess(categoryRepository.AddAsync(
             mapper.Map<Category>(categoryCreateUpdateDto)));
+        _logger.LogInformation("New category Created");
+    }
 
     public async Task Update(CategoryCreateUpdateDto categoryCreateUpdateDto, int id)
     {

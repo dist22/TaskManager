@@ -15,6 +15,7 @@ using TaskManager.Application.Interfaces.Repositories;
 using TaskManager.Infrastructure.Data.Configuration;
 using TaskManager.Infrastructure.JwtProvider;
 using TaskManager.WebAPI.Filters;
+using TaskManager.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,10 +52,12 @@ builder.Services.AddScoped<IUserAuthService, UserAuthService>();
 builder.Services.AddScoped<IUserAuthRepository, UserAuthRepository>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<ApplicationProfile>();
 });
+
 builder.Host.UseSerilog((context, cfg) =>
 {
     cfg
@@ -68,6 +71,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ExceptionHandler>();
 
 app.MapControllers();
 app.UseAuthentication();

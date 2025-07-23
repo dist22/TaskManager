@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Enums;
+using TaskManager.Domain.Exceptions;
 using TaskManager.Domain.Interfaces;
 
 namespace TaskManager.Application.Services;
@@ -13,14 +14,14 @@ public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapp
     {
         var result = await task;
         if (result != null) return result;
-        throw new NullReferenceException();
+        throw new NotFoundException($"Object not found");
     }
 
     protected async Task EnsureSuccess(Task<bool> task)
     {
         var result = await task;
         if (result) return;
-        throw new NullReferenceException();
+        throw new ConflictException("Task result is false");
     }
 
     public virtual async Task<U> GetAsync<U>(int id)
