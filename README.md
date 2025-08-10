@@ -95,4 +95,6 @@ services:
 volumes:
   sqlserverdata:
 ```
-
+## Contacts
+- Developer: Dmytro Stozhok  
+- GitHub: [https://github.com/dist22](https://github.com/dist22)
