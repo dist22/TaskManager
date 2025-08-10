@@ -1,3 +1,13 @@
+/TaskManager.WebAPI/Properties/
+/TaskManager.WebAPI/appsettings.Development.json
+/TaskManager.WebAPI/obj/
+/TaskManager.WebAPI/bin/
+/TaskManager.Infrastructure/obj/
+/TaskManager.Infrastructure/bin/
+/TaskManager.Domain/bin/
+/TaskManager.Domain/obj/
+/TaskManager.Application/obj/
+/TaskManager.Application/bin/
 # Build results
 bin/
 obj/
@@ -73,3 +83,4 @@ docker-compose.*.yml
 # Others
 *.db
 *.sln.docstates
+

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using TaskManager.Domain.Models;
 using TaskManager.Application.Interfaces;

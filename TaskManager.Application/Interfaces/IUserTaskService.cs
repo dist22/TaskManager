@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaskManager.Domain.Models;
 using TaskManager.Application.Interfaces;
 using TaskManager.Application.DTO;

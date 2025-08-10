@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TaskManager.Domain.Enums;
 
 namespace TaskManager.Application.Interfaces;

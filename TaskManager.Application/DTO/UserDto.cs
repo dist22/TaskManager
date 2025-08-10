@@ -1,3 +1,5 @@
+using System;
+
 namespace TaskManager.Application.DTO;
 
 public class UserDto
