@@ -95,6 +95,34 @@ services:
 volumes:
   sqlserverdata:
 ```
+
+## 📸 Screenshots
+
+### Swagger main page
+![Swagger UI](assets/screenshots/localhost_5029_swagger_index.html(1).png)
+
+### Example request POST: Register user
+![Register user](assets/screenshots/photo_5_2025-08-12_01-49-21.jpg)
+![User added](assets/screenshots/photo_7_2025-08-12_01-49-21.jpg)
+
+### Example request GET: Get all tasks
+![Get all task](aassets/screenshots/photo_8_2025-08-12_01-49-21.jpg)
+
+### Example request GET: Get all users
+![Get all users](assets/screenshots/photo_11_2025-08-12_01-49-21.jpg)
+
+### Example request PUT: Change username
+![Change username](assets/screenshots/photo_10_2025-08-12_01-49-21.jpg)
+
+Before:
+![Before delete](assets/screenshots/photo_12_2025-08-12_01-49-21.jpg)
+
+### Example request DELETE: Delete user
+![Delete user](assets/screenshots/photo_13_2025-08-12_01-49-21.jpg)
+
+### Example request PATCH: Change task status
+![Change task status](assets/screenshots/photo_9_2025-08-12_01-49-21.jpg)
+
 ## Contacts
 - Developer: Dmytro Stozhok  
 - GitHub: [https://github.com/dist22](https://github.com/dist22)
