@@ -99,7 +99,7 @@ volumes:
 ## 📸 Screenshots
 
 ### Swagger main page
-![Swagger UI](assets/screenshots/localhost_5029_swagger_index.html(1).png)
+![Swagger UI](assets/screenshots/localhost_5029_swagger_index.html (1).png)
 
 ### Example request POST: Register user
 ![Register user](assets/screenshots/photo_5_2025-08-12_01-49-21.jpg)
