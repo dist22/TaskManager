@@ -106,7 +106,7 @@ volumes:
 ![User added](assets/screenshots/photo_7_2025-08-12_01-49-21.jpg)
 
 ### Example request GET: Get all tasks
-![Get all task](aassets/screenshots/photo_8_2025-08-12_01-49-21.jpg)
+![Get all task](assets/screenshots/photo_8_2025-08-12_01-49-21.jpg)
 
 ### Example request GET: Get all users
 ![Get all users](assets/screenshots/photo_11_2025-08-12_01-49-21.jpg)
