@@ -26,6 +26,7 @@ public class TaskServices(IBaseRepository<TaskTime> taskRepository, IBaseReposit
         {
             Title = createDto.Title,
             Description = createDto.Description,
+            DueDate = DateTime.Now.AddDays((int)createDto.DueDate),
             CategoryName = category.Name,
             CategoryId = createDto.CategoryId,
         };

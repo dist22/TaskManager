@@ -1,0 +1,38 @@
+name: TaskManager CI/CD
+
+# Коли запускати цей сценарій
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Завантаження коду з репозиторію
+      - uses: actions/checkout@v3
+      
+      # 2. Налаштування .NET 8
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      
+      # 3. Відновлення залежностей (Restore)
+      - name: Restore dependencies
+        run: dotnet restore
+      
+      # 4. Збірка проекту (Build)
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+      
+      # 5. Запуск тестів (Test) - якщо вони впадуть, пайплайн зупиниться
+      - name: Test
+        run: dotnet test --no-build --configuration Release --verbosity normal
+      
+      # 6. Перевірка Dockerfile (спроба зібрати образ)
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag taskmanager:latest

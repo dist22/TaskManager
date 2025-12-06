@@ -42,6 +42,7 @@ public abstract class BaseService<T>(IBaseRepository<T> repository, IMapper mapp
     public virtual async Task DeleteAsync(int id)
     {
         var entity = await GetIfNotNull(repository.GetAsync(e => e.Id == id));
+        Console.WriteLine(entity.Id);
         await EnsureSuccess(repository.DeleteAsync(entity));
     }
 }

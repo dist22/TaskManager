@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Tests", "TaskManager.Tests\TaskManager.Tests.csproj", "{1DCA2354-A74B-4071-A4DF-00991A1A7F9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,5 +39,9 @@ Global
 		{45B3463F-64B9-463B-AF62-00ECB6C6CD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45B3463F-64B9-463B-AF62-00ECB6C6CD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45B3463F-64B9-463B-AF62-00ECB6C6CD0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DCA2354-A74B-4071-A4DF-00991A1A7F9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DCA2354-A74B-4071-A4DF-00991A1A7F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DCA2354-A74B-4071-A4DF-00991A1A7F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DCA2354-A74B-4071-A4DF-00991A1A7F9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

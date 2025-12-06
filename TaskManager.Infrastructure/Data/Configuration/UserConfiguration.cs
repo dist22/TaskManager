@@ -20,5 +20,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.HasIndex(u => u.Email)
             .IsUnique();
+        
+        builder.HasOne(u => u.UserAuth)
+            .WithOne(a =>  a.User)
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

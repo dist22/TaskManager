@@ -20,12 +20,10 @@ public class UserAuthConfiguration : IEntityTypeConfiguration<UserAuth>
 
         builder.Property(a => a.Password)
             .IsRequired();
-        
+
         builder.HasOne(a => a.User)
-            .WithOne(u =>  u.UserAuth)
-            .HasForeignKey<UserAuth>(a => a.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
+            .WithOne(u => u.UserAuth)
+            .HasForeignKey<UserAuth>(a => a.UserId);
     }
 
 }

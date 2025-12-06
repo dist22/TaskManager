@@ -14,7 +14,7 @@ public class User : IEntity
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     public ICollection<UserTask> UserTasks { get; set; } = new List<UserTask>();
     public UserAuth? UserAuth { get; set; }
     
