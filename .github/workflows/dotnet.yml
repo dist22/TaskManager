@@ -1,6 +1,5 @@
 name: TaskManager CI/CD
 
-# Коли запускати цей сценарій
 on:
   push:
     branches: [ "main", "master" ]
@@ -12,27 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Завантаження коду з репозиторію
+      # 1. Завантажуємо код (з папки, яку видно на скріншоті)
       - uses: actions/checkout@v3
       
-      # 2. Налаштування .NET 8
+      # 2. Ставимо .NET 8 (бо твій проект на ньому)
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
       
-      # 3. Відновлення залежностей (Restore)
+      # 3. Відновлення (Restore)
+      # Ми вказуємо TaskManager.sln, бо він лежить в корені (видно на скріншоті)
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore TaskManager.sln
       
-      # 4. Збірка проекту (Build)
+      # 4. Збірка (Build)
+      # Збираємо все рішення разом. Це перевірить і WebAPI, і Application, і Domain.
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build TaskManager.sln --no-restore --configuration Release
       
-      # 5. Запуск тестів (Test) - якщо вони впадуть, пайплайн зупиниться
+      # 5. Тести (Test)
+      # Шукаємо тести в рішенні. GitHub знайде папку TaskManager.Tests (видно на скріншоті) і запустить їх.
       - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test TaskManager.sln --no-build --configuration Release --verbosity normal
       
-      # 6. Перевірка Dockerfile (спроба зібрати образ)
+      # 6. Docker Build
+      # Контекст "." (корінь), бо Dockerfile лежить прямо поруч з .sln (видно на скріншоті)
       - name: Build Docker Image
         run: docker build . --file Dockerfile --tag taskmanager:latest
